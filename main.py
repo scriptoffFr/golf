@@ -25,6 +25,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
     ballPosIndexNew = ballPosIndex
     coupIndexNew = coupIndex + 1
     x, y = coupPos
+    ballPos_x, ballPos_y = ballPos[ballPosIndex]
     rows, cols = len(board), len(board[0])
 
     while 0 <= x < rows and 0 <= y < cols:
@@ -33,34 +34,40 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         
         if (dx != 0 and (x == 0 or x == rows - 1)) or \
         (dy != 0 and (y == 0 or y == cols - 1)):
-            coupPosNew = (x,y)
             if cell_board == "X":
                 valide = False
                 break
 
-        if cell_result in {"^", "v", "<", ">"} or ('1' <= cell_board <= '9'):
+        if cell_result in {"^", "v", "<", ">"} or (x != ballPos_x and y != ballPos_y and '1' <= cell_board <= '9'):
             valide = False
             break
 
         if cell_board == "H":
             occupe = False
             for d in DIRECTIONS.keys():
-                if d != direction and board[x+DIRECTIONS[d]["dx"]][y+DIRECTIONS[d]["dy"]] == DIRECTIONS[d]["invChar"]:
+                around_x = x+DIRECTIONS[d]["dx"]
+                around_y = y+DIRECTIONS[d]["dy"]
+                if 0 <= around_x < rows and 0 <= around_y < cols and \
+                (d != direction and board[around_x][around_y] == DIRECTIONS[d]["invChar"]):
                     occupe = True
             if occupe:
                 valide = False
                 break
             else:
                 ballPosIndexNew = ballPosIndex + 1
-                coupPosNew = ballPos[ballPosIndexNew]
+                if ballPosIndexNew < len(ballPos):
+                    coupPosNew = ballPos[ballPosIndexNew]
+                else:
+                    coupPosNew = None
                 break
 
         resultNew[x][y] = char
+        coupPosNew = (x,y)
         x += dx
         y += dy
 
     if valide:
-        resultArray.append(resultNew, ballPosIndexNew, coupPosNew, coupIndexNew)
+        resultArray.append((resultNew, ballPosIndexNew, coupPosNew, coupIndexNew))
 
 
 def generateResultsFromResult(board, result, ballPos, ballPosIndex, coupPos, coupIndex):
