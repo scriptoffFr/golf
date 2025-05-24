@@ -25,6 +25,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
     ballPosIndexNew = ballPosIndex
     coupIndexNew = coupIndex + 1
     x, y = coupPos
+    coupPos_x, couPos_y = coupPos
     ballPos_x, ballPos_y = ballPos[ballPosIndex]
     rows, cols = len(board), len(board[0])
 
@@ -40,7 +41,11 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
                 valide = False
                 break
 
-        if cell_result in {"^", "v", "<", ">"} or (x != ballPos_x and y != ballPos_y and '1' <= cell_board <= '9'):
+        if x != ballPos_x and y != ballPos_y and '1' <= cell_board <= '9':
+            valide = False
+            break
+        
+        if x != coupPos_x and y != couPos_y and cell_result in {"^", "v", "<", ">"}:
             valide = False
             break
 
