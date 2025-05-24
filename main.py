@@ -32,8 +32,10 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         cell_result = result[x][y]
         cell_board = board[x][y]
         
-        if (dx != 0 and (x == 0 or x == rows - 1)) or \
-        (dy != 0 and (y == 0 or y == cols - 1)):
+        if (direction == "haut" and x == 0) or \
+        (direction == "bas" and x == rows - 1) or \
+        (direction == "gauche" and y == 0) or \
+        (direction == "droite" and y == cols - 1):
             if cell_board == "X":
                 valide = False
                 break
