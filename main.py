@@ -62,6 +62,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
                 break
             else:
                 ballPosIndexNew = ballPosIndex + 1
+                coupIndexNew  = 0
                 if ballPosIndexNew < len(ballPos):
                     coupPosNew = ballPos[ballPosIndexNew]
                 else:
