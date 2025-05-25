@@ -19,6 +19,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
     dx = DIRECTIONS[direction]["dx"]
     dy = DIRECTIONS[direction]["dy"]
     char = DIRECTIONS[direction]["char"]
+    invChar = DIRECTIONS[direction]["invChar"]
 
     valide = True
     resultNew = deepcopy(result)
@@ -28,6 +29,13 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
     coupPos_x, couPos_y = coupPos
     ballPos_x, ballPos_y = ballPos[ballPosIndex]
     rows, cols = len(board), len(board[0])
+
+    if (direction == "haut" and x == 0) or \
+        (direction == "bas" and x == rows - 1) or \
+        (direction == "gauche" and y == 0) or \
+        (direction == "droite" and y == cols - 1) or \
+        (result[x][y] == invChar):
+            return
 
     while 0 <= x < rows and 0 <= y < cols:
         cell_result = result[x][y]
