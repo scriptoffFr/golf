@@ -108,11 +108,11 @@ if __name__ == "__main__":
     board = []
     ballPos = []
     width, height = [int(i) for i in input().split()]
-    for y in range(height):
+    for x in range(height):
         row = input()
         board.append(list(row))
         positions = find_all_balls(row)
-        for x in positions:
+        for y in positions:
             ballPos.append((x, y))    
 
     result = [['.' for _ in range(width)] for _ in range(height)]
