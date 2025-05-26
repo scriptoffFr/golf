@@ -41,6 +41,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
     while nbCasesNew > 0 and 0 <= x < rows and 0 <= y < cols:
         cell_result = result[x][y]
         cell_board = board[x][y]
+        next_x, next_y = x + dx, y + dy
         
         if (direction == "haut" and x == 0) or \
         (direction == "bas" and x == rows - 1) or \
@@ -58,32 +59,24 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
             valide = False
             break
 
-        if cell_board == "H":
+        if 0 <= next_x < rows and 0 <= next_y < cols and board[next_x][next_y] == "H":
             occupe = False
             for d in DIRECTIONS.keys():
-                around_x = x+DIRECTIONS[d]["dx"]
-                around_y = y+DIRECTIONS[d]["dy"]
+                around_x = next_x+DIRECTIONS[d]["dx"]
+                around_y = next_y+DIRECTIONS[d]["dy"]
                 if 0 <= around_x < rows and 0 <= around_y < cols and \
                 (d != direction and board[around_x][around_y] == DIRECTIONS[d]["invChar"]):
                     occupe = True
-            if occupe:
-                valide = False
-                break
-            else:
+            if not occupe:
                 ballPosIndexNew = ballPosIndex + 1
                 coupIndexNew  = 0
-                if ballPosIndexNew < len(ballPos):
-                    coupPosNew = ballPos[ballPosIndexNew]
-                else:
-                    coupPosNew = None
-                break
+                coupPosNew = ballPos[ballPosIndexNew] if ballPosIndexNew < len(ballPos) else None
 
         resultNew[x][y] = char
         coupPosNew = (x,y)
         x += dx
         y += dy
         nbCasesNew -= 1
-
     if valide:
         resultArray.append((resultNew, ballPosIndexNew, coupPosNew, coupIndexNew))
 
