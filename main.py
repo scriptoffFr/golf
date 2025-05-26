@@ -38,7 +38,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         (result[x][y] == invChar):
             return
 
-    while nbCases >= 0 and 0 <= x < rows and 0 <= y < cols:
+    while nbCases > 0 and 0 <= x < rows and 0 <= y < cols:
         cell_result = result[x][y]
         cell_board = board[x][y]
         
@@ -93,11 +93,11 @@ def generateResultsFromResult(board, result, ballPos, ballPosIndex, coupPos, cou
     ballPos_x, ballPos_y = ballPos[ballPosIndex]
     nbMaxCoup = int(board[ballPos_x][ballPos_y])
     if coupIndex < nbMaxCoup:
-        for i in reversed(range(nbMaxCoup - coupIndex)):
-            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, i, "haut")
-            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, i, "bas")
-            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, i, "droite")
-            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, i, "gauche")
+        for nbCases in reversed(range(nbMaxCoup - coupIndex)):
+            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "haut")
+            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "bas")
+            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "droite")
+            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "gauche")
     return resultArray
     
 
