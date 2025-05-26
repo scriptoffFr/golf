@@ -38,12 +38,9 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         (result[x][y] == invChar):
             return
 
-    while 0 <= x < rows and 0 <= y < cols:
+    while nbCases >= 0 and 0 <= x < rows and 0 <= y < cols:
         cell_result = result[x][y]
         cell_board = board[x][y]
-        
-        if nbCases < 0:
-            break
         
         if (direction == "haut" and x == 0) or \
         (direction == "bas" and x == rows - 1) or \
