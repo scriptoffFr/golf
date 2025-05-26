@@ -42,6 +42,8 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         cell_result = result[x][y]
         cell_board = board[x][y]
         next_x, next_y = x + dx, y + dy
+        resultNew[x][y] = char
+        coupPosNew = (x,y)
         
         if (direction == "haut" and x == 0) or \
         (direction == "bas" and x == rows - 1) or \
@@ -72,8 +74,6 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
                 coupIndexNew  = 0
                 coupPosNew = ballPos[ballPosIndexNew] if ballPosIndexNew < len(ballPos) else None
 
-        resultNew[x][y] = char
-        coupPosNew = (x,y)
         x += dx
         y += dy
         nbCasesNew -= 1
