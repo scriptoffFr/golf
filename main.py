@@ -53,7 +53,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
                 valide = False
                 break
 
-        if x != ballPos_x and y != ballPos_y and '1' <= cell_board <= '9':
+        if (x != ballPos_x or y != ballPos_y) and '1' <= cell_board <= '9':
             valide = False
             break
         
