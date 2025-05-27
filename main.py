@@ -57,7 +57,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
             valide = False
             break
         
-        if x != coupPos_x and y != couPos_y and cell_result in {"^", "v", "<", ">"}:
+        if cell_result in {"^", "v", "<", ">"}:
             valide = False
             break
 
