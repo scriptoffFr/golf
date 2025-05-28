@@ -69,7 +69,10 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
                 if 0 <= around_x < rows and 0 <= around_y < cols and \
                 (d != direction and board[around_x][around_y] == DIRECTIONS[d]["invChar"]):
                     occupe = True
-            if not occupe:
+            if occupe:
+                valide = False
+                break
+            else:    
                 ballPosIndexNew = ballPosIndex + 1
                 coupIndexNew  = 0
                 coupPosNew = ballPos[ballPosIndexNew] if ballPosIndexNew < len(ballPos) else None
