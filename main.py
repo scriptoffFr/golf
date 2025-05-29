@@ -45,13 +45,9 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         resultNew[x][y] = char
         coupPosNew = (next_x,next_y) if 0 <= next_x < rows and 0 <= next_y < cols else (x,y)
         
-        if (direction == "haut" and x == 0) or \
-        (direction == "bas" and x == rows - 1) or \
-        (direction == "gauche" and y == 0) or \
-        (direction == "droite" and y == cols - 1):
-            if cell_board == "X":
-                valide = False
-                break
+        if nbCases == 1 and cell_board == "X":
+            valide = False
+            break
 
         if (x,y) != (ballPos_x, ballPos_y) and '1' <= cell_board <= '9':
             valide = False
