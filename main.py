@@ -46,7 +46,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         resultNew[x][y] = char
         coupPosNew = (next_x,next_y) if 0 <= next_x < rows and 0 <= next_y < cols else (x,y)
         
-        if nbCases == 1 and cell_board == "X":
+        if 0 <= next_x < rows and 0 <= next_y < cols and nbCasesNew == 1 and board[next_x][next_y] == "X":
             valide = False
             break
 
