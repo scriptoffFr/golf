@@ -54,11 +54,11 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
             valide = False
             break
         
-        if cell_result in {"^", "v", "<", ">"}:
+        if cell_result in {"^", "v", "<", ">", "H"}:
             valide = False
             break
 
-        if 0 <= next_x < rows and 0 <= next_y < cols and board[next_x][next_y] == "H":
+        if 0 <= next_x < rows and 0 <= next_y < cols and nbCasesNew == 1 and board[next_x][next_y] == "H":
             occupe = False
             for d in DIRECTIONS.keys():
                 around_x = next_x+DIRECTIONS[d]["dx"]
