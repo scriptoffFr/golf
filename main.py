@@ -30,13 +30,14 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
     ballPos_x, ballPos_y = ballPos[ballPosIndex]
     rows, cols = len(board), len(board[0])
     nbCasesNew = nbCases
+    oldDirectionNew = direction
 
     if (direction == "haut" and x == 0) or \
         (direction == "bas" and x == rows - 1) or \
         (direction == "gauche" and y == 0) or \
         (direction == "droite" and y == cols - 1) or \
         (direction == oldDirection) or \
-        (direction == inverseDirection):
+        (inverseDirection == oldDirection):
             return
 
     while nbCasesNew > 0 and 0 <= x < rows and 0 <= y < cols:
@@ -72,6 +73,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
             else:    
                 ballPosIndexNew = ballPosIndex + 1
                 coupIndexNew  = 0
+                oldDirectionNew = None
                 coupPosNew = ballPos[ballPosIndexNew] if ballPosIndexNew < len(ballPos) else None
                 break
 
@@ -79,7 +81,7 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         y += dy
         nbCasesNew -= 1
     if valide:
-        resultArray.append((resultNew, ballPosIndexNew, coupPosNew, coupIndexNew, oldDirection))
+        resultArray.append((resultNew, ballPosIndexNew, coupPosNew, coupIndexNew, oldDirectionNew))
 
 
 def generateResultsFromResult(board, result, ballPos, ballPosIndex, coupPos, coupIndex, oldDirection):
