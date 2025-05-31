@@ -4,10 +4,10 @@ import re
 from copy import deepcopy
 
 DIRECTIONS = {
-    "haut":    {"dx": -1, "dy":  0, "char": "^", "invChar": "v"},
-    "bas":     {"dx":  1, "dy":  0, "char": "v", "invChar": "^"},
-    "gauche":  {"dx":  0, "dy": -1, "char": "<", "invChar": ">"},
-    "droite":  {"dx":  0, "dy":  1, "char": ">", "invChar": "<"},
+    "haut":    {"dx": -1, "dy":  0, "char": "^", "invChar": "v", "inverseDirection": "bas"},
+    "bas":     {"dx":  1, "dy":  0, "char": "v", "invChar": "^", "inverseDirection": "haut"},
+    "gauche":  {"dx":  0, "dy": -1, "char": "<", "invChar": ">", "inverseDirection": "droite"},
+    "droite":  {"dx":  0, "dy":  1, "char": ">", "invChar": "<", "inverseDirection": "gauche"},
 }
 
 BALL_PATTERN = re.compile(r"[1-9]")
@@ -15,11 +15,11 @@ BALL_PATTERN = re.compile(r"[1-9]")
 def isWin(ballPos, ballPosIndex):
     return ballPosIndex == len(ballPos) 
 
-def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, direction):
+def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, direction, oldDirection):
     dx = DIRECTIONS[direction]["dx"]
     dy = DIRECTIONS[direction]["dy"]
     char = DIRECTIONS[direction]["char"]
-    invChar = DIRECTIONS[direction]["invChar"]
+    inverseDirection = DIRECTIONS[direction]["inverseDirection"]
 
     valide = True
     resultNew = deepcopy(result)
@@ -35,7 +35,8 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         (direction == "bas" and x == rows - 1) or \
         (direction == "gauche" and y == 0) or \
         (direction == "droite" and y == cols - 1) or \
-        (result[x][y] == invChar):
+        (direction == oldDirection) or \
+        (direction == inverseDirection):
             return
 
     while nbCasesNew > 0 and 0 <= x < rows and 0 <= y < cols:
@@ -78,28 +79,28 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         y += dy
         nbCasesNew -= 1
     if valide:
-        resultArray.append((resultNew, ballPosIndexNew, coupPosNew, coupIndexNew))
+        resultArray.append((resultNew, ballPosIndexNew, coupPosNew, coupIndexNew, oldDirection))
 
 
-def generateResultsFromResult(board, result, ballPos, ballPosIndex, coupPos, coupIndex):
+def generateResultsFromResult(board, result, ballPos, ballPosIndex, coupPos, coupIndex, oldDirection):
     resultArray = []
     ballPos_x, ballPos_y = ballPos[ballPosIndex]
     nbMaxCoup = int(board[ballPos_x][ballPos_y])
     if coupIndex < nbMaxCoup:
         nbCases = nbMaxCoup - coupIndex
-        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "haut")
-        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "bas")
-        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "droite")
-        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "gauche")
+        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "haut", oldDirection)
+        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "bas", oldDirection)
+        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "droite", oldDirection)
+        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "gauche", oldDirection)
     return resultArray
     
 
-def algo(board, result, ballPos, ballPosIndex, coupPos, coupIndex):
+def algo(board, result, ballPos, ballPosIndex, coupPos, coupIndex, oldDirection):
     if isWin(ballPos, ballPosIndex):
         return True, result
     else:
-        for r, ballPosIndexNew, coupPosNew, coupIndexNew in generateResultsFromResult(board, result, ballPos, ballPosIndex, coupPos, coupIndex):
-            isWinBool, resultNew = algo(board, r, ballPos, ballPosIndexNew, coupPosNew, coupIndexNew)
+        for r, ballPosIndexNew, coupPosNew, coupIndexNew, oldDirectionNew in generateResultsFromResult(board, result, ballPos, ballPosIndex, coupPos, coupIndex, oldDirection):
+            isWinBool, resultNew = algo(board, r, ballPos, ballPosIndexNew, coupPosNew, coupIndexNew, oldDirectionNew)
             if isWinBool:
                 return isWinBool, resultNew
         return False, [[]]
@@ -121,7 +122,7 @@ if __name__ == "__main__":
 
     result = [['.' for _ in range(width)] for _ in range(height)]
 
-    _, resultOut = algo(board, result, ballPos, 0, ballPos[0], 0)
+    _, resultOut = algo(board, result, ballPos, 0, ballPos[0], 0, None)
 
     for r in resultOut:
         print("".join(r))
