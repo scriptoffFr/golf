@@ -86,11 +86,11 @@ def generateResultsFromResult(board, result, ballPos, ballPosIndex, coupPos, cou
     ballPos_x, ballPos_y = ballPos[ballPosIndex]
     nbMaxCoup = int(board[ballPos_x][ballPos_y])
     if coupIndex < nbMaxCoup:
-        for nbCases in reversed(range(1, nbMaxCoup - coupIndex + 1)):
-            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "haut")
-            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "bas")
-            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "droite")
-            generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "gauche")
+        nbCases = nbMaxCoup - coupIndex
+        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "haut")
+        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "bas")
+        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "droite")
+        generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, coupPos, coupIndex, nbCases, "gauche")
     return resultArray
     
 
