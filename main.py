@@ -36,7 +36,6 @@ def generateResultsDirection(resultArray, board, result, ballPos, ballPosIndex, 
         (direction == "bas" and x == rows - 1) or \
         (direction == "gauche" and y == 0) or \
         (direction == "droite" and y == cols - 1) or \
-        (direction == oldDirection) or \
         (inverseDirection == oldDirection):
             return
 
